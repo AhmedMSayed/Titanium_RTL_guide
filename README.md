@@ -26,6 +26,7 @@ Alloy.Globals.isRTL = Ti.App.Properties.hasProperty('language') ? true : false;
 ```
 3 - add toggle button to change between languages then reopen the index to see the changes
 ```javascript
+//index.js
 var button = Ti.UI.createButton({title: "Change Language"});
 
 button.addEventListener("click", function() {
