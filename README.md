@@ -1,6 +1,6 @@
 # Steps for Titanium RTL Application:
-1 - Use this module to force language change, it'll load correct strings [link](http://shareourideas.com/2013/12/02/titanium-locale-module-for-both-android-and-ios/)
-2 - Add `android:supportsRtl="true"` to <application> tag in _tiapp.xml_
+
+1 - Add `android:supportsRtl="true"` to <application> tag in _tiapp.xml_
 ```xml
 <android xmlns:android="http://schemas.android.com/apk/res/android">
     <manifest>
@@ -8,10 +8,10 @@
     </manifest>
 </android>
 ```
-3 - Use if in .tss file to switch RTL & LTR
+2 - Use if in .tss file to switch RTL & LTR
 ```javascript
 // alloy.js
-Alloy.Globals.isRTL = Ti.Locale.currentLanguage === 'ar';
+Alloy.Globals.isRTL = Ti.App.Properties.hasProperty('language') ? true : false;
 ```
 ```css
 '#exampleLabel' : {
@@ -24,6 +24,30 @@ Alloy.Globals.isRTL = Ti.Locale.currentLanguage === 'ar';
 	left: 5
 }
 ```
+3 - add toggle button to change between languages then reopen the index to see the changes
+```javascript
+var button = Ti.UI.createButton({title: "Change Language"});
+
+button.addEventListener("click", function() {
+	
+	if (Ti.Locale.currentLanguage == 'ar') {
+	
+		Ti.Locale.setLanguage('en');
+		Ti.App.Properties.removeProperty('language');
+		Alloy.Globals.isRTL = false;
+		
+	} else {
+	
+		Ti.Locale.setLanguage('ar');
+		Ti.App.Properties.setString('language', 'ar');
+		Alloy.Globals.isRTL = true;
+		
+	}
+	
+	Alloy.createController("index").getView().open();
+});
+```
+
 4 - Set iOS 9+ is minimum in tiapp.xml
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
